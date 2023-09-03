@@ -2,22 +2,40 @@ package eventos.entity;
 
 import java.util.List;
 
-public class Falecimento extends Evento {
+/*
+ * Ato responsável por registrar o falecimento de um funcionário
+ * inativando seu vínculo
+ */
+public class Falecimento extends Ato {
 
-    public Falecimento() {}
+    private String tipoEvento;
+    private Funcionario funcionario;
+
+    public Falecimento() {
+        this.tipoEvento = "Falecimento";
+    }
 
     @Override
-    boolean processar(Setor setorIdGestor, Setor setorIdInter) {
-        // TODO Auto-generated method stub
+    public boolean processar(Setor setorIdGestor, Setor setorIdInter) {
         return false;
     }
 
-    public void registrarFalecimento(List<Vinculo> vinculos, Long id) {
-        Vinculo vinculo = vinculos.stream()
-                    .filter(v -> v.getId() == id)
-                    .findFirst()
-                    .orElseThrow();
-        vinculo.inactivate();
+    public void setFuncionario(Funcionario f) {
+        this.funcionario = f;
     }
+
+    @Override
+    public String imprimir() {
+        return this.tipoEvento;
+    }
+
+    // public void registrarFalecimento(List<Contrato> vinculos, Long id) {
+    //     Contrato vinculo = vinculos.stream()
+    //                 .filter(v -> v.getId() == id)
+    //                 .findFirst()
+    //                 .orElseThrow();
+    //     vinculo.inactivate();
+    // }
+
     
 }

@@ -3,39 +3,100 @@
  */
 package eventos;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.sql.Date;
 
 import eventos.entity.Falecimento;
-import eventos.entity.Realocação;
-import eventos.entity.ProvimentoCargo;
+import eventos.entity.Funcionario;
+import eventos.entity.Realocacao;
 import eventos.entity.Setor;
-import eventos.entity.Vinculo;
+import eventos.service.AtoService;
+import eventos.service.ContratoService;
+import eventos.service.FuncionarioService;
+import eventos.dao.AtoDao;
+import eventos.entity.Admissao;
+import eventos.entity.Contrato;
+import eventos.entity.Encerramento;
 
 public class App {
 
+    /*
+     * Para realizar uma admissão, é necessário escolher a opção nova admissão
+     * preencher os dados do novo contrato e confirmar.
+     */
+
+    public static Funcionario funcionario = new Funcionario("Pedro", "11001");
+
     public static void main(String[] args) {
-        List<String> eventos = new ArrayList<>();
-        List<Vinculo> vinculos = new ArrayList<>();
-        vinculos.add(new Vinculo(1L, Setor.SETOR_A));
 
-        ProvimentoCargo pc = new ProvimentoCargo();
-        pc.proverCargo(vinculos, 1L, new Vinculo(2L, Setor.SETOR_A));
+        AtoService atoService = new AtoService(new AtoDao());
+        
+        novaAdmissao();
 
-        System.out.println("\n----------------");
-        vinculos.forEach(System.out::println);
+        funcionario.getContratosTrabalho().forEach(x -> System.out.println(x.getSetor().toString()));
+        
+        atoService.list().forEach(x -> System.out.println(x.imprimir()));
 
-        Realocação f = new Realocação();
-        f.realocar(vinculos, 1L, 2L, Setor.SETOR_C);
+        novoFalecimento();
 
-        System.out.println("\n----------------");
-        vinculos.forEach(System.out::println);
+        funcionario.getContratosTrabalho().forEach(x -> System.out.println(x.getSetor().toString()));
+        
+        atoService.list().forEach(x -> System.out.println(x.imprimir()));
 
-        Falecimento fal = new Falecimento();
-        fal.registrarFalecimento(vinculos, 2L);
+        novoRealocacao(funcionario.getContratosTrabalho().get(0), Setor.SETOR_C);
 
-        System.out.println("\n----------------");
-        vinculos.forEach(System.out::println);
+        funcionario.getContratosTrabalho().forEach(x -> System.out.println(x.getSetor().toString()));
+        
+        atoService.list().forEach(x -> System.out.println(x.imprimir()));
+
+        novoEncerramento(funcionario.getContratosTrabalho().get(0));
+
+        funcionario.getContratosTrabalho().forEach(x -> System.out.println(x.isActive()));
+        
+        atoService.list().forEach(x -> System.out.println(x.imprimir()));
+    }
+
+    public static void novaAdmissao() {
+        Contrato contrato = new Contrato(); // cria novo obj contrato
+        contrato.setId(1L);
+        contrato.setDataOcorrido(new Date(System.currentTimeMillis()));
+        contrato.setSetor(Setor.SETOR_A);
+
+        FuncionarioService fs = new FuncionarioService();
+        fs.admitir(funcionario, contrato); // cria novo contrato para o funcionário
+
+        AtoService as = new AtoService(new AtoDao());
+        Admissao admissao = new Admissao(); // cria um novo obj admissão
+        admissao.setContrato(contrato);
+        as.add(admissao);
+    }
+
+    public static void novoFalecimento() {
+        FuncionarioService fs = new FuncionarioService();
+        fs.registrarFalecimento(funcionario); // registra falecimento do funcionário
+
+        AtoService as = new AtoService(new AtoDao());
+        Falecimento falecimento = new Falecimento();
+        falecimento.setFuncionario(funcionario);
+        as.add(falecimento);
+    }
+
+    public static void novoRealocacao(Contrato contrato, Setor setor) {
+        ContratoService cs = new ContratoService();
+        cs.realocar(contrato, setor); // realoca o setor de um contrato
+
+        AtoService as = new AtoService(new AtoDao());
+        Realocacao realocacao = new Realocacao();
+        realocacao.setContrato(contrato);
+        as.add(realocacao);
+    }
+
+    public static void novoEncerramento(Contrato contrato) {
+        ContratoService cs = new ContratoService();
+        cs.encerrar(contrato);
+
+        AtoService as = new AtoService(new AtoDao());
+        Encerramento encerramento = new Encerramento();
+        encerramento.setContrato(contrato);
+        as.add(encerramento);
     }
 }

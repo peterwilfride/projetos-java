@@ -2,13 +2,10 @@ package sistema.de.enfileiramento.datasource;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.Queue;
 
 import sistema.de.enfileiramento.entity.Player;
 
-public class QueueFactory {
-    
-    public static Queue<Player> queue;
+public class PlayerQueue {
 
     public static Deque<Player> deque;
 

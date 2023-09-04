@@ -2,31 +2,38 @@ package sistema.de.enfileiramento.entity;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import sistema.de.enfileiramento.enums.Position;
 import sistema.de.enfileiramento.enums.TeamStatus;
 
 public class Team {
     
+    private UUID id;
     private Map<Player, Position> positions;
     private TeamStatus teamStatus;
 
     public Team() {
+        this.id = UUID.randomUUID();
         this.positions = new HashMap<>();
         this.teamStatus = TeamStatus.INCOMPLETE;
+    }
+
+    public UUID getId() {
+        return this.id;
     }
 
     public Map<Player, Position> getPositions() {
         return this.positions;
     }
 
-    public Object addToTeam(Player player) {
+    public boolean addToTeam(Player player) {
 
         if (this.isComplete()) {
-            return "time cheio";
+            return false;
         }
         if (this.positions.containsKey(player)) {
-            return "jogador já está na time";
+            return false;
         }
 
         Position[] playerPrefs = player.gePositionsPermutation();
@@ -35,31 +42,21 @@ public class Team {
         if (player.hasPreference()){
             if (this.positions.containsValue(playerPrefs[0])) {
                 // player retorna para o topo da fila
-                return "Posição já ocupada";
+                return false;
             } else {
                 positions.put(player, playerPrefs[0]);
-                return null;
+                return true;
             }   
         }
 
         // player não tem 100% de preferencia
-        if (this.positions.containsValue(playerPrefs[0])) {
-            if (this.positions.containsValue(playerPrefs[1])) {
-                if (this.positions.containsValue(playerPrefs[2])) {
-                    // player retorna para o topo da fila
-                    return "Todas as posições preenchidas";
-                } else {
-                    positions.put(player, playerPrefs[2]);
-                    return null;
-                }   
-            } else {
-                positions.put(player, playerPrefs[1]);
-                return null;
+        for (int i = 0; i < player.gePositionsPermutation().length; i++) {
+            if (!this.positions.containsValue(playerPrefs[i])) {
+                this.positions.put(player, playerPrefs[i]);
+                return true;
             }
-        } else {
-            positions.put(player, playerPrefs[0]);
-            return null;
         }
+        return false;
     }
 
     public void removeFromTeam(Player player) {
@@ -74,5 +71,14 @@ public class Team {
             return true;
         }
         return false;
+    }
+
+    public String print() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getId().toString() + "\n");
+        for(Map.Entry<Player, Position> p : getPositions().entrySet()) {
+            sb.append(p.getKey().getId() + " - " + p.getValue().toString() + "\n");
+        }
+        return sb.toString();
     }
 }

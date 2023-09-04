@@ -1,6 +1,6 @@
 package sistema.de.enfileiramento.service;
 
-import sistema.de.enfileiramento.datasource.QueueFactory;
+import sistema.de.enfileiramento.datasource.PlayerQueue;
 import sistema.de.enfileiramento.entity.Player;
 
 /*
@@ -14,20 +14,28 @@ public class PlayerService {
     
     public void enterQueue(Player player) {
         player.enterQueue();
-        QueueFactory.getQueue().addLast(player);
+        PlayerQueue.getQueue().addLast(player);
     }
 
     public void returnQueue(Player player) {
         player.enterQueue();
-        QueueFactory.getQueue().addFirst(player);
+        PlayerQueue.getQueue().addFirst(player);
     }
 
     public void getOutQueue(Player player) {
         player.getOutQueue();
-        QueueFactory.getQueue().remove(player);
+        PlayerQueue.getQueue().remove(player);
     }
 
     public Player choose() {
-        return QueueFactory.getQueue().removeFirst();
+        return PlayerQueue.getQueue().removeFirst();
+    }
+
+    public boolean isEmpty() {
+        return PlayerQueue.getQueue().isEmpty();
+    }
+
+    public boolean hasPlayers() {
+        return PlayerQueue.getQueue().size() > 0;
     }
 }

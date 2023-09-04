@@ -3,109 +3,71 @@
  */
 package sistema.de.enfileiramento;
 
-import java.util.Map;
-
-import sistema.de.enfileiramento.datasource.QueueFactory;
 import sistema.de.enfileiramento.entity.Player;
-import sistema.de.enfileiramento.entity.Team;
 import sistema.de.enfileiramento.enums.Position;
 import sistema.de.enfileiramento.service.PlayerService;
+import sistema.de.enfileiramento.service.TeamService;
 
 public class App {
-    public static void main(String[] args) {
-        Player p1 = new Player("1001", true);
-        Player p2 = new Player("1002", true);
-        Player p3 = new Player("1003", true);
-        Player p4 = new Player("1004", true);
-        Player p5 = new Player("1005", true);
-        Player p6 = new Player("1006", true);
-        Player p7 = new Player("1007", true);
-        Player p8 = new Player("1008", true);
-        Player p9 = new Player("1009", true);
-        Player p10 = new Player("1010", true);
-        Player p11 = new Player("1011", true);
-        Player p12 = new Player("1012", true);
-        Player p13 = new Player("1013", true);
-        Player p14 = new Player("1014", true);
-        Player p15 = new Player("1015", true);
-        Player p16 = new Player("1016", true);
-        Player p17 = new Player("1017", true);
+    public static void main(String[] args) throws InterruptedException {
 
         PlayerService playerService = new PlayerService();
+        TeamService teamService = new TeamService();
+
+        Player p1 = new Player("1001");
+        Player p2 = new Player("1002");
+        Player p3 = new Player("1003");
+        Player p4 = new Player("1004");
+        Player p5 = new Player("1005");
+        Player p6 = new Player("1006");
+        Player p7 = new Player("1007");
+        Player p8 = new Player("1008");
+        Player p9 = new Player("1009");
+        Player p10 = new Player("1010");
+        Player p11 = new Player("1011");
+        Player p12 = new Player("1012");
+        Player p13 = new Player("1013");
+        Player p14 = new Player("1014");
+        Player p15 = new Player("1015");
+        Player p16 = new Player("1016");
+        Player p17 = new Player("1017");
+        Player p18 = new Player("1018");
+
+        Thread teamsThread = new Thread(new TeamServer(playerService));
+        teamsThread.start();
+
+        Thread matcThread = new Thread(new MatchServer(teamService));
+        matcThread.start();
+
+        Thread.sleep(2000);
 
         playerService.enterQueue(p1);
+        p2.changePositionPermutation(Position.WARRIOR, Position.ARCHER, Position.MAGE);
+        p2.setHasPreference(1.0);
         playerService.enterQueue(p2);
         playerService.enterQueue(p3);
+        playerService.enterQueue(p4);
+        playerService.enterQueue(p5);
+        playerService.enterQueue(p6);
 
-        p1.changePositionPermutation(Position.ARCHER, Position.MAGE, Position.WARRIOR);
-        p2.changePositionPermutation(Position.ARCHER, Position.WARRIOR, Position.MAGE);
-        p3.changePositionPermutation(Position.WARRIOR, Position.ARCHER, Position.MAGE);
+        playerService.enterQueue(p7);
+        playerService.enterQueue(p8);
 
-        Team team = new Team();
+        Thread.sleep(3000);
 
-        System.out.println(p1.printPositions());
-        System.out.println(p2.printPositions());
-        System.out.println(p3.printPositions());
-        
-        System.out.println(team.addToTeam(playerService.choose()));
-        System.out.println(team.addToTeam(playerService.choose()));
-        System.out.println(team.addToTeam(playerService.choose()));
+        playerService.enterQueue(p9);
+        playerService.enterQueue(p10);
+        playerService.enterQueue(p11);
 
-        System.out.println(QueueFactory.getQueue().size());
+        playerService.enterQueue(p12);
 
-        for(Map.Entry<Player, Position> p : team.getPositions().entrySet()) {
-            System.out.printf("%s - %s%n", p.getKey().getId(), p.getValue().toString());
-        }
+        Thread.sleep(5000);
 
-
-        // Queue<Player> playerQueue = QueueFactory.getQueue();
-
-        // // a entrada de player na fila deve ocorrer em uma thread
-        // playerQueue.add(new Player("1001", true, true));
-        // playerQueue.add(new Player("1002", true, true));
-        // playerQueue.add(new Player("1003", true, true));
-        // playerQueue.add(new Player("1004", true, true));
-        // playerQueue.add(new Player("1005", true, true));
-        // playerQueue.add(new Player("1006", true, true));
-        // playerQueue.add(new Player("1007", true, true));
-        // playerQueue.add(new Player("1008", true, true));
-        // playerQueue.add(new Player("1009", true, true));
-        // playerQueue.add(new Player("1010", true, true));
-        // playerQueue.add(new Player("1011", true, true));
-        // playerQueue.add(new Player("1012", true, true));
-        // playerQueue.add(new Player("1013", true, true));
-        // playerQueue.add(new Player("1014", true, true));
-        // playerQueue.add(new Player("1015", true, true));
-        // playerQueue.add(new Player("1016", true, true));
-        // playerQueue.add(new Player("1017", true, true));
-
-        // // a escolha de jogadores para formar teams deve ocorrer em outra thread
-        
-        // while (!playerQueue.isEmpty()) {
-
-        //     // pego o proximo jogador da fila
-        //     Player p = playerQueue.remove();
-
-        //     Match m = new Match();
-
-        //     // tenta adicionar p no no time, na posição p.getPreferencia()
-        //     // 
-        //     m.addTeam1(p);
-
-
-
-
-        //     if (playerQueue.size() < 6) break;
-        //     Match match = new Match();
-        //     while (!match.isClosed()) {
-        //         match.addTeam1(playerQueue.remove());
-        //         match.addTeam2(playerQueue.remove());
-
-        //         match.addTeam1Warrior()
-        //     }
-        //     MatchListFactory.getMatches().add(match);
-        // }
-
-        // MatchListFactory.getMatches().forEach(System.out::println);
+        playerService.enterQueue(p13);
+        playerService.enterQueue(p14);
+        playerService.enterQueue(p15);
+        playerService.enterQueue(p16);
+        playerService.enterQueue(p17);
+        playerService.enterQueue(p18);
     }
 }

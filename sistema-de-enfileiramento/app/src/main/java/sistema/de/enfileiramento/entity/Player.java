@@ -1,26 +1,20 @@
 package sistema.de.enfileiramento.entity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import sistema.de.enfileiramento.enums.Position;
 
 public class Player {
     
     private String id;
-    private Boolean isOnline;
-    private Boolean isInQueue;
-    private Map<Position, Float> positionPriority;
+    private boolean isInQueue;
     private List<Match> matchHistory;
     private Position[] positionPermutation;
     private Double hasPreference;
 
-    public Player(String id, Boolean isOnline) {
+    public Player(String id) {
         this.id = id;
-        this.isOnline = isOnline;
-        this.positionPriority = buildPositionPriority();
         this.matchHistory = new ArrayList<>();
         this.positionPermutation = new Position[3];
         this.initPositionPermutation();
@@ -48,30 +42,6 @@ public class Player {
          " " + this.gePositionsPermutation()[0] + 
          " " + this.gePositionsPermutation()[1] + 
          " " + this.gePositionsPermutation()[2];
-    }
-
-    /*
-     * se um jogador joga na posição que ele pede, ele perde 0.1 no valor de prioridade
-     * para aquela posição
-     */
-    public void decreasePriority(Position position) {
-        this.positionPriority.compute(position, (key,val) -> (val == 1.0f) ? 1.0f : val - 0.1f);
-    }
-
-    /*
-     * se um jogador não joga na posição que ele pede, ele ganha 0.1 no valor de prioridade
-     * para aquela posição
-     */
-    public void increasePriority(Position position) {
-        this.positionPriority.compute(position, (key,val) -> (val == 1.0f) ? 1.0f : val + 0.1f);
-    }
-
-    private Map<Position, Float> buildPositionPriority() {
-        Map<Position, Float> positionPriority = new HashMap<>();
-        positionPriority.put(Position.WARRIOR, 0.8f);
-        positionPriority.put(Position.MAGE, 1.0f);
-        positionPriority.put(Position.ARCHER, 0.9f);
-        return positionPriority;
     }
 
     public void addToHistory(Match match) {

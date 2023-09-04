@@ -5,7 +5,7 @@ import java.util.List;
 
 import sistema.de.enfileiramento.entity.Match;
 
-public class MatchListFactory {
+public class MatchList {
     
     private static List<Match> matches;
 

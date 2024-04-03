@@ -3,7 +3,7 @@ package eventos.dao;
 import java.util.List;
 
 import eventos.datasource.AtoSource;
-import eventos.entity.Ato;
+import eventos.entity.ato.Ato;
 
 public class AtoDao {
     

@@ -15,19 +15,21 @@ public class User {
         this.groups = new HashSet<>();
     }
 
+    
+
     public void addRole(Role role) {
         if (!roles.contains(role)) {
             this.roles.add(role);
         }
     }
 
-    // public void removeRole(Role role) {
-    //     for (Group group : this.groups) {
-    //         if (!group.containRole(role)) {
-    //             this.roles.remove(role);
-    //         }
-    //     }
-    // }
+    public void removeRole(Role role) {
+        for (Group group : this.groups) {
+            if (!group.containRole(role)) {
+                this.roles.remove(role);
+            }
+        }
+    }
 
     public void addGroup(Group group) {
         if (!groups.contains(group)) {
@@ -45,5 +47,17 @@ public class User {
                 this.roles.remove(role);
             } 
         }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public Set<Group> getGroups() {
+        return groups;
     }
 }

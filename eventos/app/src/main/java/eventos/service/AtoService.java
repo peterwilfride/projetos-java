@@ -3,7 +3,7 @@ package eventos.service;
 import java.util.List;
 
 import eventos.dao.AtoDao;
-import eventos.entity.Ato;
+import eventos.entity.ato.Ato;
 
 public class AtoService {
 

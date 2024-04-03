@@ -5,17 +5,17 @@ package eventos;
 
 import java.sql.Date;
 
-import eventos.entity.Falecimento;
 import eventos.entity.Funcionario;
-import eventos.entity.Realocacao;
 import eventos.entity.Setor;
+import eventos.entity.ato.Admissao;
+import eventos.entity.ato.Encerramento;
+import eventos.entity.ato.Falecimento;
+import eventos.entity.ato.Realocacao;
 import eventos.service.AtoService;
 import eventos.service.ContratoService;
 import eventos.service.FuncionarioService;
 import eventos.dao.AtoDao;
-import eventos.entity.Admissao;
 import eventos.entity.Contrato;
-import eventos.entity.Encerramento;
 
 public class App {
 

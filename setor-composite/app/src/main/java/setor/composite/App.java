@@ -20,7 +20,7 @@ public class App {
         Setor setor9 = new Setor(9L, setor5, "Motorista");
         Setor setor0 = new Setor(0L, setor5, "Auxiliar de Serviços Gerais");
 
-        imprimirHierarquiaSetores(setor1);
+        imprimirHierarquiaSetores(setor9);
     }
 
     public static void imprimirHierarquiaSetores(Setor setor) {

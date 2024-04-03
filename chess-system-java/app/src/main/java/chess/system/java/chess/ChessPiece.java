@@ -1,0 +1,22 @@
+package chess.system.java.chess;
+
+import chess.system.java.boardgame.Board;
+import chess.system.java.boardgame.Piece;
+
+public class ChessPiece extends Piece {
+
+    private Color color;
+
+    public ChessPiece(Board board, Color color) {
+        super(board);
+        this.color = color;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    
+
+    
+}

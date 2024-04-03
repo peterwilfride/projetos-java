@@ -28,4 +28,12 @@ public class Group {
     public boolean containRole(Role role) {
         return this.roles.contains(role);
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

@@ -3,7 +3,7 @@ package eventos.datasource;
 import java.util.ArrayList;
 import java.util.List;
 
-import eventos.entity.Ato;
+import eventos.entity.ato.Ato;
 
 public class AtoSource {
         

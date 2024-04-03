@@ -14,20 +14,31 @@ import user.roles.groups.system.manegement.model.User;
 public class App {
     public static void main(String[] args) {
 
-        List<Role> rolesList = RoleList.getList;
+        List<Role> rolesList = RoleList.getList();
         Role r1 = new Role(1L, "member");
         rolesList.add(r1);
         Role r2 = new Role(2L, "admin");
         rolesList.add(r2);
     
-        List<Group> groupsList = GroupList.getList;
+        List<Group> groupsList = GroupList.getList();
         Group g1 = new Group(1L, "meu grupo");
         g1.addRole(r2);
         groupsList.add(g1);
 
-
         User user = new User(1L);
         user.addRole(r1);
+        
+        System.out.println("\n----------");
+        user.getRoles().forEach(x -> System.out.println(x.getName()));
+        
         user.addGroup(g1);
+
+        System.out.println("\n----------");
+        user.getRoles().forEach(x -> System.out.println(x.getName()));
+
+        user.removeRole(r2);
+
+        System.out.println("\n----------");
+        user.getRoles().forEach(x -> System.out.println(x.getName()));
     }
 }

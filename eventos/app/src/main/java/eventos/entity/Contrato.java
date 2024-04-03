@@ -3,6 +3,8 @@ package eventos.entity;
 import java.sql.Date;
 import java.util.List;
 
+import eventos.entity.ato.Ato;
+
 public class Contrato {
     private Long id;
     private Setor setor;
